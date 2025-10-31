@@ -4,11 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Project RevoU</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <center><h1>ToDo List Website</h1></center>
-    <center><h3>by RevoU Students</h3></center>
-
+    <p>
+        <center><h1>ToDo List Website</h1></center>
+        <center><h3>by RevoU Students</h3></center>
+    </p>
+    <br>
+        <tr>
+            <center>
+                <td><input type="text"
+                placeholder="Add Your ToDo List..."</td>
+                <td><input type="date"</td>
+                <td><button>+</button></td>
+            </center>        
+        </tr>
+    </br>
+    <br>
+        <tr>
+            <td>
+                <button style="margin-left: 150px;">Filter</button>       
+            </td>
+            <td>
+                <button style="margin-left: 210px;">Delete All</button>
+            </td>
+        </tr>
+    </br>
+    <br>
+        <center>
+            <table border="1"
+                style="width: 80%; height:auto center;">
+            <thead>
+                <tr>
+                    <th>ToDo List</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="todoList">
+                <tr>
+                    <td colspan="4" class="no-task">No task found</td>
+                    
+                </tr>
+            </tbody>
+        </center>
+    </br>
+<script src="script.js"></script>
     
 </body>
 </html>
