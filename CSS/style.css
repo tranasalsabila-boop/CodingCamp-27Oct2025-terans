@@ -1,7 +1,40 @@
-body {
-  background-color: #0f1624;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: #fff;
+body {  
+    font-family: Arial, sans-serif;  
+    background-color: rgb(255, 255, 0);  
+    margin: 20px;  
+    padding: 20px;
+}
+
+h1 {
+  color: rgb(153, 79, 153);
+    text-align: center;
+}
+
+h3 {
+  color: rgb(161, 21, 21);
+    text-align: center;
+}
+
+input {
+  width: 500px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  display: flexbox;
+  line-gap-override: inherit;
+}
+
+button {
+  background-color: rgb(153, 79, 153);
+  color: white;
+  padding: 20px 30px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: auto;
+}
