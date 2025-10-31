@@ -17,36 +17,43 @@
                 <td><input type="text"
                 placeholder="Add Your ToDo List..."</td>
                 <td><input type="date"</td>
-                <td><button>+</button></td>
+                <td>
+                    <div class="Add-Button"></div>
+                    <button class="add-button">Add Task
+                </button>
+                </td>
             </center>        
         </tr>
     </br>
     <br>
         <tr>
             <td>
+                
                 <div class="button-container">
-                    <button class="left-button">Tombol Kiri</button>
-                    <button class="right-button">Tombol Kanan</button>
+                    <select name="Filter" id="filterSelect">
+                            <option value="All">All</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>        
+                    </select>
+                    <button class="right-button">Delete All</button>
                 </div>
             </td>
         </tr>
     </br>
     <br>
         <center>
-            <table border="1"
-                style="width: 80%; height:auto center;">
-            <thead>
-                <tr>
+            <table border="1" bgcolor="white" 
+            style="width: 80%; text-align: center;">
+                <tr bgcolor="purple" style="color:white;">
                     <th>ToDo List</th>
                     <th>Due Date</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
-            </thead>
-            <tbody id="todoList">
+            <tbody id="todoList" bgcolor="pink">
                 <tr>
-                    <td colspan="4" class="no-task">No task found</td>
-                    
+                    <td colspan="4" class="no-task">No task found</td>   
                 </tr>
             </tbody>
         </center>

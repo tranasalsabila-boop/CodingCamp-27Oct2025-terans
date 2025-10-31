@@ -1,64 +1,122 @@
-const taskInput = document.getElementById("taskInput");
-const dueDate = document.getElementById("dueDate");
-const addBtn = document.getElementById("addBtn");
-const deleteAllBtn = document.getElementById("deleteAllBtn");
-const todoList = document.getElementById("todoList");
+// Ambil elemen dari HTML
+const taskInput = document.querySelector('input[type="text"]');
+const dueDateInput = document.querySelector('input[type="date"]');
+const addButton = document.querySelector('.add-button');
+const deleteAllButton = document.querySelector('.right-button');
+const filterSelect = document.getElementById('filterSelect');
+const todoList = document.getElementById('todoList');
 
-let todos = [];
+// Simpan semua tugas
+let tasks = [];
 
-addBtn.addEventListener("click", addTask);
-deleteAllBtn.addEventListener("click", clearAll);
+// === Fungsi render ===
+function renderTasks() {
+    todoList.innerHTML = '';
 
+    // Ambil filter
+    const filterValue = filterSelect.value;
+
+    // Filter berdasarkan status
+    let filteredTasks = tasks;
+    if (filterValue !== 'All') {
+        filteredTasks = tasks.filter(task => task.status === filterValue);
+    }
+
+    // Jika tidak ada tugas
+    if (filteredTasks.length === 0) {
+        todoList.innerHTML = `
+            <tr>
+                <td colspan="4" class="no-task">No task found</td>
+            </tr>
+        `;
+        return;
+    }
+
+    // Tampilkan daftar tugas
+    filteredTasks.forEach((task, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${task.name}</td>
+            <td>${task.dueDate || '-'}</td>
+            <td>
+                <button class="status-btn ${task.status.toLowerCase().replace(' ', '-')}">
+                    ${task.status}
+                </button>
+            </td>
+            <td>
+                <button class="delete-btn">🗑️</button>
+            </td>
+        `;
+
+        // Ubah status jika diklik
+        row.querySelector('.status-btn').addEventListener('click', () => {
+            if (task.status === 'Pending') task.status = 'In Progress';
+            else if (task.status === 'In Progress') task.status = 'Completed';
+            else task.status = 'Pending';
+            saveTasks();
+            renderTasks();
+        });
+
+        // Hapus tugas
+        row.querySelector('.delete-btn').addEventListener('click', () => {
+            tasks.splice(index, 1);
+            saveTasks();
+            renderTasks();
+        });
+
+        todoList.appendChild(row);
+    });
+}
+
+// === Fungsi tambah tugas baru ===
 function addTask() {
-  const task = taskInput.value.trim();
-  const date = dueDate.value;
+    const taskName = taskInput.value.trim();
+    const dueDate = dueDateInput.value;
 
-  if (task === "" || date === "") return alert("Please fill all fields!");
+    if (!taskName) {
+        alert('Please enter your ToDo!');
+        return;
+    }
 
-  todos.push({ task, date, done: false });
-  taskInput.value = "";
-  dueDate.value = "";
-  renderTodos();
+    const newTask = {
+        name: taskName,
+        dueDate: dueDate,
+        status: 'Pending'
+    };
+
+    tasks.push(newTask);
+    saveTasks();
+    renderTasks();
+
+    // Kosongkan input
+    taskInput.value = '';
+    dueDateInput.value = '';
 }
 
-function renderTodos() {
-  todoList.innerHTML = "";
-
-  if (todos.length === 0) {
-    todoList.innerHTML = `<tr><td colspan="4" class="no-task">No task found</td></tr>`;
-    return;
-  }
-
-  todos.forEach((todo, index) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${todo.task}</td>
-      <td>${todo.date}</td>
-      <td>${todo.done ? "Done ✅" : "Pending ⏳"}</td>
-      <td>
-        <button onclick="toggleStatus(${index})">Toggle</button>
-        <button onclick="deleteTask(${index})">Delete</button>
-      </td>
-    `;
-    todoList.appendChild(row);
-  });
+// === Fungsi hapus semua tugas ===
+function deleteAllTasks() {
+    if (confirm('Are you sure you want to delete all tasks?')) {
+        tasks = [];
+        saveTasks();
+        renderTasks();
+    }
 }
 
-function toggleStatus(index) {
-  todos[index].done = !todos[index].done;
-  renderTodos();
+// === Simpan dan ambil dari localStorage ===
+function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-function deleteTask(index) {
-  todos.splice(index, 1);
-  renderTodos();
+function loadTasks() {
+    const saved = localStorage.getItem('tasks');
+    if (saved) {
+        tasks = JSON.parse(saved);
+    }
+    renderTasks();
 }
 
-function clearAll() {
-  if (confirm("Delete all tasks?")) {
-    todos = [];
-    renderTodos();
-  }
-}
-
-renderTodos();
+// === Event listeners ===
+addButton.addEventListener('click', addTask);
+deleteAllButton.addEventListener('click', deleteAllTasks);
+filterSelect.addEventListener('change', renderTasks);
+document.addEventListener('DOMContentLoaded', loadTasks);

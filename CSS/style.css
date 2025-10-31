@@ -16,12 +16,12 @@ h3 {
 }
 
 input {
-  width: 500px;
+  width: 400px;
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 7px;
+  border-radius: 40px;
   display: flexbox;
-  line-gap-override: inherit;
+  line-gap-override: normal;
 }
 
 button {
